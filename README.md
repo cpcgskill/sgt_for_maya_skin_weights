@@ -1,0 +1,2 @@
+# sgt_for_maya_skin_weights
+使用sgt处理maya的蒙皮权重
