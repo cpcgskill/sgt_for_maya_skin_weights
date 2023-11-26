@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -*-
 """
-:创建时间: 2023/3/9 12:33
+:创建时间: 2023/11/26 20:40
 :作者: 苍之幻灵
 :我的主页: https://cpcgskill.com
 :Github: https://github.com/cpcgskill
@@ -11,3 +11,6 @@
 
 """
 from __future__ import unicode_literals, print_function, division
+
+if False:
+    from typing import *

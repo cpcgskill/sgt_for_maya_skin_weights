@@ -25,8 +25,6 @@ from skinkit.weights import WeightEditor, edit_weights_block
 from parse_data.all import *
 from parse_data.check import check_data
 
-import sgtone_for_skin_weights.config
-
 PATH = os.path.dirname(os.path.abspath(__file__))
 NET_PATH = os.sep.join([PATH, "net.pt"])
 DEBUG = True
@@ -54,7 +52,7 @@ def timing(work_name):
     #     cc.refresh()
 
 
-def parse_source_data(ctx, source_object_list):
+def parse_source_data(ctx, source_object_list, preconvolution):
     # with timing('扫描焦点视图'):
     #     view_data = expand_data(parse_focus_view_data(ctx, 10, 10, 10), size=4)
     # if DEBUG:
@@ -84,7 +82,7 @@ def parse_source_data(ctx, source_object_list):
         this_point_data_list = point_data_list
         point_data_list = [this_point_data_list]
 
-        for i in range(sgtone_for_skin_weights.config.preconvolution):
+        for i in range(preconvolution):
             this_point_data_list = parse_smoothed_data_by_mesh(ctx, this_point_data_list)
             point_data_list.append(this_point_data_list)
         # print('point_data_list:', point_data_list)
@@ -129,10 +127,10 @@ def with_parse_data_ctx(mesh, source_object_list):
 
 
 @keep_select_list_wrapper
-def parse_run_data(mesh, source_object_list):
+def parse_run_data(mesh, source_object_list, preconvolution):
     print('parse_run_data args', (mesh, source_object_list))
     with with_parse_data_ctx(mesh, source_object_list) as ctx:
-        source_data = parse_source_data(ctx, source_object_list)
+        source_data = parse_source_data(ctx, source_object_list, preconvolution)
         print('source_data size', len(source_data[0]))
         print('source_data item', source_data[0])
     return list(source_data)
@@ -156,10 +154,10 @@ def set_skin_weight(mesh, skin_joint_list, data):
 
 
 @keep_select_list_wrapper
-def parse_train_data(mesh, source_object_list, skin_joint_list):
+def parse_train_data(mesh, source_object_list, skin_joint_list, preconvolution):
     print('parse_train_data args', (mesh, source_object_list, skin_joint_list))
     with with_parse_data_ctx(mesh, source_object_list) as ctx:
-        source_data = parse_source_data(ctx, source_object_list)
+        source_data = parse_source_data(ctx, source_object_list, preconvolution)
         label_data = parse_label_data(ctx, skin_joint_list)
         print('source_data size', len(source_data[0]))
         print('label_data size', len(label_data[0]))

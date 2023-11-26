@@ -47,6 +47,7 @@ def mydocker(name='CPWindow', title=None, form=None):
         name=name,
         title=title,
         form=Background(child=form, color='#444444'),
+        size=(800, 600),
     )
 
 
@@ -58,8 +59,8 @@ class SelectButton(QAbstractButton):
         self.setText(text)
         self.setAutoExclusive(True)
         self.setCheckable(True)
-        self.setMinimumWidth(120)
-        self.setMinimumHeight(30)
+        self.setMinimumWidth(140)
+        self.setMinimumHeight(40)
         if callback is not None:
             self.clicked.connect(lambda *args: callback() if self.isChecked() else None)
 
@@ -159,7 +160,7 @@ class ListViewWidget(WarpWidget):
         """
         self.data_list = list(data_list)
         self.create_item_callback = create_item_callback
-        self.filter_callback = lambda search_str, data: True if filter_callback is None else filter_callback
+        self.filter_callback = lambda search_str, data: True if filter_callback is None else filter_callback(search_str, data)
 
         self._search_widget = LineEditWidget(
             return_pressed_callback=self._update_view,

@@ -21,8 +21,8 @@ from cpgui.std_imp import *
 
 from cpform.widget.all import *
 
-# default_url_root = r'http://127.0.0.1:8000/sgtone'
-default_url_root = r'https://self-growth-toolchain.api.cpcgskill.com/sgtone'
+default_url_root = r'http://127.0.0.1:12000/sgt'
+# default_url_root = r'https://self-growth-toolchain.api.cpcgskill.com/sgtone'
 
 loading_gif = os.path.dirname(os.path.abspath(__file__))
 loading_gif = os.sep.join([loading_gif, 'loading.gif'])

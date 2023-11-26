@@ -13,6 +13,11 @@
 from __future__ import unicode_literals, print_function, division
 
 if __name__ == '__main__':
-    from sgtone_for_skin_weights.gui.index import create_main_window
+    import sgt_gui.index
+    import sgt_skin_weights.app_api as sgtone_for_skin_weights
+    import sgt_mesh_refine.app_api as sgtone_for_mesh_refine
 
-    create_main_window()
+    sgt_gui.index.app_list.append(sgtone_for_skin_weights.app)
+    sgt_gui.index.app_list.append(sgtone_for_mesh_refine.app)
+
+    sgt_gui.index.create_main_window()

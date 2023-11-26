@@ -1,6 +1,6 @@
 # -*-coding:utf-8 -*-
 """
-:创建时间: 2023/4/23 20:29
+:创建时间: 2023/11/26 20:40
 :作者: 苍之幻灵
 :我的主页: https://cpcgskill.com
 :Github: https://github.com/cpcgskill
@@ -14,6 +14,17 @@ from __future__ import unicode_literals, print_function, division
 
 if False:
     from typing import *
+from sgt_gui.app_api import AppApi
 
-preconvolution = 3
-model_type = 'sgtone_for_skin_weights_v1_preconvolution_{}'.format(preconvolution)
+
+class MeshRefine(AppApi):
+    def create(self, refresh_view_callback=None):
+        pass
+
+    def run(self, model):
+        pass
+
+    def upload_train_data(self, model):
+        pass
+
+app = MeshRefine('MeshRefine', 'mesh_refine')

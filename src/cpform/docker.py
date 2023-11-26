@@ -261,7 +261,7 @@ def delete_docker(name='CPWindow'):
     _docker_table.pop(name)
 
 
-def default_docker(form, icon=None, name='CPWindow', title=None):
+def default_docker(form, icon=None, name='CPWindow', title=None, size=None):
     """
     build函数提供将表单(列表 or 元组)编译为界面的功能
 
@@ -282,7 +282,8 @@ def default_docker(form, icon=None, name='CPWindow', title=None):
     _docker_table[name] = widget
     if not widget.isVisible():
         widget.show()
-
+    if size is not None:
+        widget.resize(*size)
 
 def logo_docker(form, icon=None, name='CPWindow', title=None):
     """
