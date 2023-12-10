@@ -239,10 +239,45 @@ def create_select_dialog(option_list):
         return None
 
 
+
+def create_add_template_window(model, template):
+    # type: (App, Dict)->None
+    client_data = model.client_data
+    name_to_template_table = {i['name']: i for i in client_data.get('templates', [])}
+    name_to_template_table[template['name']] = template
+    client_data['templates'] = list(name_to_template_table.values())
+    model.update_client_data(client_data)
+
+
+def create_delete_template_window(model, template):
+    # type: (App, Dict)->None
+    client_data = model.client_data
+    name_to_template_table = {i['name']: i for i in client_data.get('templates', [])}
+    name_to_template_table.pop(template['name'])
+    client_data['templates'] = list(name_to_template_table.values())
+
+    model.update_client_data(client_data)
+
+
+def create_select_template_dialog(model):
+    # type: (App)->Dict
+    client_data = model.client_data
+
+    name_to_template_table = {i['name']: i for i in client_data.get('templates', [])}
+
+    selected = create_select_dialog(name_to_template_table.keys())
+    if selected is None:
+        return None
+    else:
+        return name_to_template_table[selected]
+
 __all__ = [
     'mydocker',
     'create_tab_group_widget',
     'ListViewWidget',
     'ComboBoxWidget',
     'create_select_dialog',
+    'create_add_template_window',
+    'create_delete_template_window',
+    'create_select_template_dialog',
 ]
