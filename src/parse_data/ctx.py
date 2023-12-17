@@ -44,6 +44,25 @@ class Ctx(object):
         )
         return point
 
+    def unstandardization_point(self, point):
+        """
+        反标准化点信息
+
+        :type point: (float, float, float)
+        :rtype: List[(float, float, float)]
+        """
+        point = (
+            point[0] * self.std_scale,
+            point[1] * self.std_scale,
+            point[2] * self.std_scale,
+        )
+        point = (
+            point[0] + self.std_center[0],
+            point[1] + self.std_center[1],
+            point[2] + self.std_center[2],
+        )
+        return point
+
     def clear(self):
         return cc.delete(self.std_mesh)
 

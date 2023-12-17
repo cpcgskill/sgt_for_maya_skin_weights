@@ -38,6 +38,7 @@ if __name__ == '__main__':
     from maya_test_tools import open_file, question_open_maya_gui
 
     # open_file(r'C:\\Users\\PC\\Desktop\\卡内奇Rig集(内含 Vegta,Sebastian,Zoey,Monarudo,Lindsey\\Zoey_Rig_V002.ma')
+    open_file(r'C:/Users/PC/Desktop/backup_to_cloud/dev/pytorch_for_maya/sgt/sgt_for_maya_skin_weights/test/mesh_refine.ma')
 
     sgt_gui.index.create_main_window()
 

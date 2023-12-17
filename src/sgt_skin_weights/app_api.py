@@ -12,8 +12,6 @@
 """
 from __future__ import unicode_literals, print_function, division
 
-import functools
-
 if False:
     from typing import *
 
@@ -195,7 +193,8 @@ class SkinWeights(AppApi):
                 CheckBoxWidget(info='是否公开', default_state=False),
             ],
             doit_text='Push',
-            func=functools.partial(self.create_model, refresh_view_callback=refresh_view_callback),
+            # func=functools.partial(self.create_model, refresh_view_callback=refresh_view_callback),
+            func=lambda *args: self.create_model(*args, refresh_view_callback=refresh_view_callback),
         )
 
         mydocker(
@@ -230,7 +229,8 @@ class SkinWeights(AppApi):
                 ScrollAreaWidget(widget=w),
             ],
             doit_text='生成权重',
-            func=functools.partial(self.model_run, model)
+            # func=functools.partial(self.model_run, model)
+            func=lambda *args: self.model_run(model, *args)
         )
         mydocker(
             name='run model: {}'.format(model.name),
@@ -264,7 +264,8 @@ class SkinWeights(AppApi):
                 ScrollAreaWidget(widget=w),
             ],
             doit_text='上传',
-            func=functools.partial(self.model_upload_train_data, model)
+            # func=functools.partial(self.model_upload_train_data, model)
+            func=lambda *args: self.model_upload_train_data(model, *args)
         )
         mydocker(
             name='upload model data: {}'.format(model.name),
