@@ -8,7 +8,7 @@ clean:
 
 build: clean
 	echo "Build Start"
-	pyeal build -cf pyeal_maya_plugin.json
+	mayapy -m pyeal build -cf pyeal_maya_plugin.json
 	echo "Build End"
 
 install_package: build
