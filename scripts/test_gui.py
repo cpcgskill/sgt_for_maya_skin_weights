@@ -44,4 +44,4 @@ if __name__ == '__main__':
 
     app.exec_()
 
-    # question_open_maya_gui()
+    question_open_maya_gui()

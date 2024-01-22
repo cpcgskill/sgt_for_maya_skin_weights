@@ -39,6 +39,16 @@ def _parse_mesh_vertex_point_data(mesh):
 
     # return [i for i in pts]
 
+def parse_vertex_point_data(ctx):
+    """
+    从原点获得顶点的点数据， 获得的点数据是相对与输入原点的标准模型顶点数据
+
+    :type ctx: Ctx
+    :type origin_point: (float, float, float)
+    :rtype: List[(float, float, float)]
+    """
+    pts = _parse_mesh_vertex_point_data(ctx.std_mesh)
+    return [(i.x, i.y, i.z) for i in pts]
 
 def parse_vertex_point_data_from_origin_point(ctx, origin_point=(0, 0, 0)):
     """
@@ -73,7 +83,11 @@ def parse_vertex_point_data_from_transform_node_translation(ctx, transform):
     return data
 
 
-__all__ = ['parse_vertex_point_data_from_origin_point', 'parse_vertex_point_data_from_transform_node_translation']
+__all__ = [
+    'parse_vertex_point_data',
+    'parse_vertex_point_data_from_origin_point',
+    'parse_vertex_point_data_from_transform_node_translation'
+]
 
 if __name__ == '__main__':
     def test():

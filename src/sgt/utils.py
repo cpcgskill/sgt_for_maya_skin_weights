@@ -21,7 +21,8 @@ from cpgui.std_imp import *
 
 from cpform.widget.all import *
 
-default_url_root = r'http://127.0.0.1:12000/sgt'
+# default_url_root = r'http://127.0.0.1:12000/sgt'
+default_url_root = r'https://download.cpcgskill.com/develop_sgt_config.json'
 # default_url_root = r'https://self-growth-toolchain.api.cpcgskill.com/sgtone'
 
 loading_gif = os.path.dirname(os.path.abspath(__file__))
@@ -106,13 +107,28 @@ def http_json_api_widget(url, headers=None, json_object=None, success_call=None,
     def _fail_call(error):
         widget.toggle_to(error_label_widget('失败', error.__name__))
 
+    def _make_call(status_code, _, body):
+        if status_code == 200:
+            end_point = json.loads(body)['end_point']
+            widget.toggle_to(
+                HttpPost(
+                    child=DoingWidget(),
+                    url=end_point + url,
+                    headers=headers,
+                    body=json.dumps(json_object),
+                    success_call=_success_call,
+                    fail_call=_fail_call,
+                )
+            )
+        else:
+            widget.toggle_to(error_label_widget('读取配置文件时的未知异常', repr(body)))
+
     widget = ToggleWidget(
-        widget=HttpPost(
+        widget=HttpGet(
             child=DoingWidget(),
-            url=os.getenv('sgtone_url_root', default_url_root) + url,
+            url=os.getenv('sgtone_url_root', default_url_root),
             headers=headers,
-            body=json.dumps(json_object),
-            success_call=_success_call,
+            success_call=_make_call,
             fail_call=_fail_call,
         )
     )

@@ -83,6 +83,9 @@ if __name__ == '__main__':
         orig_mesh = cc.selected()[0]
         print('new Ctx', Ctx(orig_mesh, ((0, 1, 0), 1.5)))
         print('auto new Ctx', Ctx(orig_mesh))
+        ctx = Ctx(orig_mesh, ((0, 1, 0), 1.5))
+        print('ctx.standardization_point', ctx.standardization_point((6, 6, 6)))
+        print('ctx.unstandardization_point', ctx.unstandardization_point(ctx.standardization_point((6, 6, 6))))
 
         question_open_maya_gui()
 

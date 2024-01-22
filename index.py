@@ -17,7 +17,8 @@ if __name__ == '__main__':
     import sgt_skin_weights.app_api as sgtone_for_skin_weights
     import sgt_mesh_refine.app_api as sgtone_for_mesh_refine
 
-    sgt_gui.index.app_list.append(sgtone_for_skin_weights.app)
-    sgt_gui.index.app_list.append(sgtone_for_mesh_refine.app)
+    if not sgt_gui.index.app_list:
+        sgt_gui.index.app_list.append(sgtone_for_skin_weights.app)
+        sgt_gui.index.app_list.append(sgtone_for_mesh_refine.app)
 
     sgt_gui.index.create_main_window()

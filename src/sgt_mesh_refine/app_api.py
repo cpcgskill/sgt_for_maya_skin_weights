@@ -219,7 +219,7 @@ class MeshRefine(AppApi):
             form=[
                 ScrollAreaWidget(widget=w),
             ],
-            doit_text='生成权重',
+            doit_text='模型修正',
             # func=functools.partial(self.model_run, model)
             func=lambda *args: self.model_run(model, *args)
         )

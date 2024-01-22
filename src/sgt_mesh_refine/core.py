@@ -90,7 +90,7 @@ def parse_source_data(ctx, source_object_list, preconvolution):
 
 def parse_label_data(ctx):
     with timing('生成标签数据'):
-        data = parse_vertex_point_data_from_origin_point(ctx)
+        data = parse_vertex_point_data(ctx)
     if DEBUG:
         check_data(data)
     return data
@@ -111,11 +111,11 @@ def keep_select_list_wrapper(fn):
 @contextlib.contextmanager
 def with_parse_data_ctx(mesh, source_object_list):
     print('with_parse_data_ctx args', (mesh, source_object_list))
-    std_center_and_scale = None
-    if len(source_object_list) > 1:
-        bounding_box_min, bounding_box_max = object_bounding_box_from_point_object(*source_object_list)
-        std_center_and_scale = bounding_box_to_center_and_std_scale(bounding_box_min, bounding_box_max)
-        print('with_parse_data_ctx std_center_and_scale', std_center_and_scale)
+    # std_center_and_scale = None
+    # if len(source_object_list) > 1:
+    bounding_box_min, bounding_box_max = object_bounding_box_from_point_object(*source_object_list)
+    std_center_and_scale = bounding_box_to_center_and_std_scale(bounding_box_min, bounding_box_max)
+    print('with_parse_data_ctx std_center_and_scale', std_center_and_scale)
 
         # center, scale = std_center_and_scale
         # cc.polyCube(n='debug_box')[0].set_translation(center).set_scale((scale, scale, scale))
@@ -147,9 +147,11 @@ def parse_run_data(source_mesh, ref_object_list, preconvolution):
 def set_point_to_source_mesh(target_mesh, ref_object_list, data):
     print('set_skin_weight args', (target_mesh, ref_object_list, data[:100]))
     with with_parse_data_ctx(target_mesh, ref_object_list) as ctx:
+        orign_data = parse_label_data(ctx)
         target_mesh = cc.new_object(target_mesh)
-        for vtx, pt in zip(target_mesh.vtx, data):
-            vtx.set_point(ctx.unstandardization_point(pt))
+        for vtx, opt, pt in zip(target_mesh.vtx, orign_data, data):
+            vtx.set_point(ctx.unstandardization_point((opt[0] + pt[0], opt[1] + pt[1], opt[2] + pt[2])))
+            # vtx.set_point(ctx.unstandardization_point(opt))
 
 
 @keep_select_list_wrapper
@@ -157,8 +159,11 @@ def set_point_to_source_mesh(target_mesh, ref_object_list, data):
 def parse_train_data(source_mesh, target_mesh, ref_object_list, preconvolution):
     with with_parse_data_ctx(source_mesh, ref_object_list) as ctx:
         source_data = parse_source_data(ctx, ref_object_list, preconvolution)
+    with with_parse_data_ctx(source_mesh, ref_object_list) as ctx:
+        source_label_data = parse_label_data(ctx)
     with with_parse_data_ctx(target_mesh, ref_object_list) as ctx:
-        label_data = parse_label_data(ctx)
+        target_label_data = parse_label_data(ctx)
+    label_data = [(t[0]-s[0], t[1]-s[1], t[2]-s[2]) for s, t in zip(source_label_data, target_label_data)]
     print('source_data size', len(source_data[0]))
     print('label_data size', len(label_data[0]))
     print('source_data item', source_data[0])
