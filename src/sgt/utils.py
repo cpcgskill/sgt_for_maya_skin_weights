@@ -22,7 +22,7 @@ from cpgui.std_imp import *
 from cpform.widget.all import *
 
 # default_url_root = r'http://127.0.0.1:12000/sgt'
-default_url_root = r'https://download.cpcgskill.com/develop_sgt_config.json'
+default_url_root = r'C:/Users/cpcgs/Desktop/backup_to_cloud/dev/pytorch_for_maya/sgt/sgt_for_maya_skin_weights/test/develop_sgt_config.json'
 # default_url_root = r'https://self-growth-toolchain.api.cpcgskill.com/sgtone'
 
 loading_gif = os.path.dirname(os.path.abspath(__file__))
@@ -122,16 +122,32 @@ def http_json_api_widget(url, headers=None, json_object=None, success_call=None,
             )
         else:
             widget.toggle_to(error_label_widget('读取配置文件时的未知异常', repr(body)))
-
-    widget = ToggleWidget(
-        widget=HttpGet(
-            child=DoingWidget(),
-            url=os.getenv('sgtone_url_root', default_url_root),
-            headers=headers,
-            success_call=_make_call,
-            fail_call=_fail_call,
+    if default_url_root.startswith('http'):
+        widget = ToggleWidget(
+            widget=HttpGet(
+                child=DoingWidget(),
+                url=os.getenv('sgtone_url_root', default_url_root),
+                headers=headers,
+                success_call=_make_call,
+                fail_call=_fail_call,
+            )
         )
-    )
+    else:
+        with open(default_url_root, 'rb') as f:
+            config = json.loads(f.read())
+        end_point = config['end_point']
+        widget = ToggleWidget(
+            widget=HttpPost(
+                child=DoingWidget(),
+                url=end_point + url,
+                headers=headers,
+                body=json.dumps(json_object),
+                success_call=_success_call,
+                fail_call=_fail_call,
+            )
+        )
+
+
     return widget
 
 
